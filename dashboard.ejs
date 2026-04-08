@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Passport | Star Alliance</title>
+    <style>
+        body { background: #f4f7f9; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 40px; color: #333; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; }
+        /* The Professional Card */
+        .card { width: 400px; height: 230px; border-radius: 20px; padding: 30px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
+        .card-MEMBER { background: linear-gradient(135deg, #2c3e50, #000); }
+        .card-SILVER { background: linear-gradient(135deg, #7f8c8d, #bdc3c7); color: #222; }
+        .card-GOLD { background: linear-gradient(135deg, #d4af37, #b8860b); }
+        
+        .card-tier { position: absolute; top: 30px; right: 30px; font-weight: bold; letter-spacing: 2px; }
+        .card-name { font-size: 1.8em; margin-top: 60px; text-transform: uppercase; }
+        .miles-row { display: flex; margin-top: 40px; }
+        .miles-box { margin-right: 40px; }
+        .miles-box span { display: block; font-size: 0.7em; opacity: 0.8; }
+        .miles-box strong { font-size: 1.4em; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/01/Star_Alliance_logo.svg/1200px-Star_Alliance_logo.svg.png" width="150">
+        <a href="/logout" style="color: #666; text-decoration: none;">Logout</a>
+    </div>
+
+    <div class="card card-<%= data ? data.tier : 'MEMBER' %>">
+        <div class="card-tier">STAR ALLIANCE <%= data ? data.tier : 'MEMBER' %></div>
+        <div class="card-name"><%= user.username %></div>
+        <div class="miles-row">
+            <div class="miles-box">
+                <span>AWARD MILES</span>
+                <strong><%= data ? data.awardMiles.toLocaleString() : 0 %></strong>
+            </div>
+            <div class="miles-box">
+                <span>STATUS MILES</span>
+                <strong><%= data ? data.statusMiles.toLocaleString() : 0 %></strong>
+            </div>
+        </div>
+    </div>
+
+    <h3>Recent Flight Activity</h3>
+    <table style="width: 100%; background: white; border-radius: 10px; border-collapse: collapse;">
+        <tr style="text-align: left; border-bottom: 2px solid #eee;">
+            <th style="padding: 15px;">Airline</th>
+            <th>Flight</th>
+            <th>Earned</th>
+            <th>Date</th>
+        </tr>
+        <% if (data && data.flightHistory) { %>
+            <% data.flightHistory.reverse().forEach(flight => { %>
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 15px;"><%= flight.airline %></td>
+                    <td><%= flight.flightNo %></td>
+                    <td>+<%= flight.milesEarned %></td>
+                    <td><%= new Date(flight.date).toLocaleDateString() %></td>
+                </tr>
+            <% }) %>
+        <% } %>
+    </table>
+</body>
+</html>
