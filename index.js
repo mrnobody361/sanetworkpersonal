@@ -1,18 +1,13 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const client = require('./bot/bot');
-const app = require('./web/server');
+const client = require('./bot'); // Removed '/bot' folder path
+const app = require('./server'); // Removed '/web' folder path
 
-// 1. Connect Database
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-        console.log("✈️ Star Alliance Database Connected");
-        
-        // 2. Start Discord Bot
+        console.log("✈️ Star Alliance Database Connected (Flat Mode)");
         client.login(process.env.BOT_TOKEN);
-
-        // 3. Start Dashboard Server
         const PORT = process.env.PORT || 3000;
-        app.listen(PORT, () => console.log(`🌐 Alliance Dashboard live on port ${PORT}`));
+        app.listen(PORT, () => console.log(`🌐 Dashboard active on port ${PORT}`));
     })
-    .catch(err => console.error("Database initialization failed:", err));
+    .catch(err => console.error("Database connection failed", err));
