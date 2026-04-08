@@ -5,11 +5,10 @@ const UserSchema = new mongoose.Schema({
     username: { type: String, required: true },
     awardMiles: { type: Number, default: 0 },
     statusMiles: { type: Number, default: 0 },
-    tier: { type: String, default: 'MEMBER' }, // MEMBER, SILVER, GOLD
+    tier: { type: String, default: 'MEMBER' },
     flightHistory: [{
         flightNo: String,
         airline: String,
-        class: String,
         milesEarned: Number,
         date: { type: Date, default: Date.now }
     }]
