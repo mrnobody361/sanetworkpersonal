@@ -2,11 +2,11 @@ const express = require('express');
 const passport = require('passport');
 const { Strategy } = require('passport-discord');
 const session = require('express-session');
-const User = require('../models/User');
+const User = require('./User'); // Points to User.js in the same folder
 
 const app = express();
 app.set('view engine', 'ejs');
-app.set('views', './web/views');
+app.set('views', '.'); // Crucial: Tells the app EJS files are in the main folder
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((obj, done) => done(null, obj));
@@ -18,7 +18,7 @@ passport.use(new Strategy({
     scope: ['identify']
 }, (accessToken, refreshToken, profile, done) => done(null, profile)));
 
-app.use(session({ secret: 'alliance-secret', resave: false, saveUninitialized: false }));
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -30,6 +30,10 @@ app.get('/dashboard', async (req, res) => {
     if (!req.isAuthenticated()) return res.redirect('/');
     const userData = await User.findOne({ discordId: req.user.id });
     res.render('dashboard', { user: req.user, data: userData });
+});
+
+app.get('/logout', (req, res) => {
+    req.logout(() => res.redirect('/'));
 });
 
 module.exports = app;
