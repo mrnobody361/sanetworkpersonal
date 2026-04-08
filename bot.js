@@ -1,5 +1,5 @@
 const { Client, GatewayIntentBits, SlashCommandBuilder, REST, Routes, EmbedBuilder } = require('discord.js');
-const User = require('../models/User');
+const User = require('./User'); // Points to User.js in the same folder
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] });
 
@@ -49,7 +49,6 @@ client.on('interactionCreate', async interaction => {
             { upsert: true, new: true }
         );
 
-        // Tier Logic (Star Alliance Standards)
         if (user.statusMiles >= 50000) user.tier = 'GOLD';
         else if (user.statusMiles >= 20000) user.tier = 'SILVER';
         await user.save();
