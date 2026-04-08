@@ -1,7 +1,7 @@
 {
-  "name": "Star Alliance Network",
+  "name": "Frequent Flyers at Star Alliance",
   "version": "1.1.0",
-  "description": "Star Alliance Network Global Miles Integration System",
+  "description": "SANetwork Global Miles Integration System",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
